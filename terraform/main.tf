@@ -56,7 +56,6 @@ resource "aws_security_group" "ec2_sg" {
 resource "aws_instance" "ec2" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
-  key_name      = var.key_pair_name
 
   root_block_device {
     volume_size = var.instance_disk_size
