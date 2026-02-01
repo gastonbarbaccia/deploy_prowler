@@ -31,12 +31,7 @@ jobs:
         working-directory: terraform
         run: terraform init
 
-      - name: Create SSH key file
-        run: |
-          echo "${{ secrets.SSH_KEY }}" > key.pem
-          chmod 600 key.pem
-
       - name: Terraform Apply
         working-directory: terraform
         run: |
-          terraform apply -auto-approve             -var="instance_type=${{ inputs.instance_type }}"             -var="instance_disk_size=${{ inputs.instance_disk }}"             -var="private_key_file=../key.pem"
+          terraform apply -auto-approve             -var="instance_type=${{ inputs.instance_type }}"             -var="instance_disk_size=${{ inputs.instance_disk }}" 
