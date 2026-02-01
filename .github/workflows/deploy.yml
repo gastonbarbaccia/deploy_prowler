@@ -1,0 +1,42 @@
+name: Deploy n8n
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance_type:
+        default: t2.medium
+      instance_disk:
+        default: "30"
+      db_class:
+        default: db.t3.micro
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Create SSH key file
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > key.pem
+          chmod 600 key.pem
+
+      - name: Terraform Apply
+        working-directory: terraform
+        run: |
+          terraform apply -auto-approve             -var="instance_type=${{ inputs.instance_type }}"             -var="instance_disk_size=${{ inputs.instance_disk }}"             -var="private_key_file=../key.pem"
