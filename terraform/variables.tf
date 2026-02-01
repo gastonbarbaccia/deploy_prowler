@@ -20,12 +20,3 @@ variable "sg_name_ec2" {
   default = "sg_prowler_dev"
 }
 
-
-variable "key_pair_name" {
-  default = "security"
-}
-
-
-variable "private_key_file" {
-  type = string
-}
