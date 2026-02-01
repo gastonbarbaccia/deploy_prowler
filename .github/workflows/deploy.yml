@@ -1,4 +1,4 @@
-name: Deploy n8n
+name: Deploy Prawler
 
 on:
   workflow_dispatch:
