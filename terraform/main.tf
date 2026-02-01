@@ -99,10 +99,9 @@ resource "aws_instance" "ec2" {
 
               cd /home/ubuntu/
               git clone https://github.com/gastonbarbaccia/prowler_custom.git
-              cd prowler_custom
               chown -R 1000:1000 _data
               chmod -R 755 _data
-              docker-compose up -d
+              docker compose up -d
 
               EOF
 
