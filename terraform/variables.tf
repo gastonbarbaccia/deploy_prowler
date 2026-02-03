@@ -13,10 +13,10 @@ variable "instance_disk_size" {
 
 
 variable "ec2_name" {
-  default = "prowler_dev"
+  default = "prowler_prod"
 }
 
 variable "sg_name_ec2" {
-  default = "sg_prowler_dev"
+  default = "sg_prowler_prod"
 }
 
