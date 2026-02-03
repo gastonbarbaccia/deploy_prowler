@@ -2,7 +2,7 @@
 set -e
 
 # Variables
-PUBLIC_HOST="${public_host}"
+PUBLIC_HOST=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
 apt update -y
 apt upgrade -y
@@ -30,8 +30,6 @@ git clone https://github.com/gastonbarbaccia/prowler_custom.git
 cd prowler_custom
 
 # .env dinámico
-cat <<ENV > .env
-# .env dinámico (COMPLETO)
 cat <<ENV > .env
 #### Important Note ####
 # This file is used to store environment variables for the Prowler App.

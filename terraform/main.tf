@@ -52,10 +52,6 @@ resource "aws_security_group" "ec2_sg" {
   }
 }
 
-locals {
-  public_host = aws_instance.ec2.public_ip
-}
-
 
 resource "aws_instance" "ec2" {
   ami           = data.aws_ami.ubuntu.id
@@ -73,9 +69,7 @@ resource "aws_instance" "ec2" {
     Name = var.ec2_name
   }
 
-  user_data = templatefile("${path.module}/user_data.sh.tpl", {
-    public_host = local.public_host
-  })
+  user_data = file("${path.module}/user_data.sh.tpl")
 
 }
 
