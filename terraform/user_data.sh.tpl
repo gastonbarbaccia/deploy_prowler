@@ -130,4 +130,4 @@ RSS_FEED_SOURCES='[{"id":"prowler-releases","name":"Prowler Releases","type":"gi
 ENV
 
 
-docker compose up -d
+sudo docker compose up -d
