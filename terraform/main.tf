@@ -52,6 +52,10 @@ resource "aws_security_group" "ec2_sg" {
   }
 }
 
+locals {
+  public_host = aws_instance.ec2.public_ip
+}
+
 
 resource "aws_instance" "ec2" {
   ami           = data.aws_ami.ubuntu.id
@@ -69,41 +73,9 @@ resource "aws_instance" "ec2" {
     Name = var.ec2_name
   }
 
-  user_data = <<-EOF
-              #!/bin/bash
-              set -e
-
-              apt update -y
-              apt upgrade -y
-
-              # Install Docker
-              install -m 0755 -d /etc/apt/keyrings
-              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-              chmod a+r /etc/apt/keyrings/docker.gpg
-
-              echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-              $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
-
-              apt update -y
-              apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-              systemctl enable docker
-              systemctl start docker
-
-              # Esperar a que Docker esté listo
-              until docker info >/dev/null 2>&1; do sleep 3; done
-
-              usermod -aG docker ubuntu
-
-              # Instalacion de prowler
-
-              cd /home/ubuntu/
-              git clone https://github.com/gastonbarbaccia/prowler_custom.git
-              chown -R 1000:1000 _data
-              chmod -R 755 _data
-              docker compose up -d
-
-              EOF
+  user_data = templatefile("${path.module}/user_data.sh.tpl", {
+    public_host = local.public_host
+  })
 
 }
 
