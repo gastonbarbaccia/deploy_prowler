@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       instance_type:
-        default: t2.medium
+        default: t3.medium
       instance_disk:
         default: "30"
       db_class:
