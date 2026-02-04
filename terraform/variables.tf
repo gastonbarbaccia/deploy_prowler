@@ -3,7 +3,7 @@ variable "aws_region" {
 }
 
 variable "instance_type" {
-  default = "t3.medium"
+  default = "t2.medium"
 }
 
 variable "instance_disk_size" {
@@ -13,10 +13,10 @@ variable "instance_disk_size" {
 
 
 variable "ec2_name" {
-  default = "prowler_prod"
+  default = "prowler_prod2"
 }
 
 variable "sg_name_ec2" {
-  default = "sg_prowler_prod"
+  default = "sg_prowler_prod2"
 }
 
